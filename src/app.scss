@@ -79,7 +79,7 @@ body {
       'header list'
       'form list'
       'form total';
-    .form {
+    form {
       grid-area: form;
       background-color: var(--container-background-color);
       border-radius: 8px;
@@ -143,8 +143,8 @@ body {
       padding: 48px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
+      align-items: stretch;
+      justify-content: flex-start;
       row-gap: 16px;
     }
   }

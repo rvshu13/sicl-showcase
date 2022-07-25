@@ -1,30 +1,19 @@
 <script>
+	import { createEventDispatcher } from 'svelte'
+  	const dispatch = createEventDispatcher()
+
     export let id = 0;
     export let dateAdded = "";
     export let description = "";
     export let value = 0;
     export let paymentType = "card";
     export let additional = []; // "fast-food" | "alcohol" | "regret"
-
-    let promise = Promise.resolve();
-
+	
     let valueFormatted = new Intl.NumberFormat('en-US', {style: "currency", currency: "USD"}).format(value);
     let dateFormatted = new Date(dateAdded).toISOString().split("T")[0];
 
-    async function deleteExpense(id) {
-        const response = await fetch(`/api/expenses/${id}`, {
-            method: "delete"
-        });
-
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error(response.statusText);
-        }
-    }
-
     function handleDelete() {
-        promise = deleteExpense(id);
+        dispatch("delete");
     }
 </script>
 
