@@ -17,13 +17,13 @@ body {
 
 @media (prefers-color-scheme: dark) {
 	.hero {
-		background-image: url('src/assets/Components-dark.svg');
+		background-image: url('/assets/Components-dark.svg');
 	}
 }
 
 @media (prefers-color-scheme: light) {
 	.hero {
-		background-image: url('src/assets/Components-light.svg');
+		background-image: url('/assets/Components-light.svg');
 	}
 }
 
