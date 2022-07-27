@@ -18,6 +18,7 @@
 	}
 
 	async function postExpense(expense) {
+		console.log('JSON.stringify(expense)', JSON.stringify(expense))
 		const response = await fetch(`/api/expenses`, {
 			method: 'post',
 			body: JSON.stringify(expense),
@@ -30,9 +31,9 @@
 		let form = e.target
 		let formData = new FormData(form)
 		let expense = {
-			dateAdded: date.toISOString(),
+			dateAdded: date.toISOString().split("T")[0],
 			description: formData.get('description'),
-			value: formData.get('value'),
+			value: Number(formData.get('value')),
 			paymentType: formData.get('paymentType'),
 			additional: formData.getAll('additional'),
 		}
@@ -41,6 +42,11 @@
 
 		response.then((res) => {
 			if (res.ok) {
+				res.json()
+					.then((data) => ({ data: data }))
+					.then((res) => {
+						expense.id = res.data.id
+					})
 				expenses.push(expense)
 				expenses = expenses
 
@@ -67,11 +73,11 @@
 		promise = deleteExpense(id)
 	}
 
-	$: totalValue: expenses.reduce((acc, curr) => acc.value + curr.value, 0)
+	$: totalValue = expenses.reduce((prev, curr) => prev + curr.value, 0)
 </script>
 
 <div class="hero">
-	<sicl-button type="button" variant="primary" icon-left="sun" />
+	<div class="temp-header-center-inside-flex-please-don't-mind-me-please" />
 	<div class="header">
 		<h1>✨SICL✨</h1>
 		<h4>Simple & Intuitive Component Library.</h4>
@@ -111,6 +117,7 @@
 					label-text="Name (max. 40 characters)"
 					placeholder="ex. Dinner"
 					max-length="40"
+					form-associated="true"
 				/>
 				<sicl-input
 					name="value"
@@ -120,18 +127,40 @@
 					min="1"
 					label-text="Value"
 					placeholder="4.11"
+					form-associated="true"
 				/>
 				<sicl-radio-group name="paymentType" label-text="Payment type">
-					<sicl-radio label-text="💳 Card" checked />
-					<sicl-radio label-text="💵 Cash" />
+					<sicl-radio
+						value="card"
+						label-text="💳 Card"
+						form-associated="true"
+						checked
+					/>
+					<sicl-radio
+						value="cash"
+						label-text="💵 Cash"
+						form-associated="true"
+					/>
 				</sicl-radio-group>
 				<sicl-checkbox-group
 					name="additional"
 					label-text="Additional info"
 				>
-					<sicl-checkbox label-text="🍟 Fast food" />
-					<sicl-checkbox label-text="🍻 Alcohol" />
-					<sicl-checkbox label-text="👀 Do you regret this?" />
+					<sicl-checkbox
+						value="fast-food"
+						label-text="🍟 Fast food"
+						form-associated="true"
+					/>
+					<sicl-checkbox
+						value="alcohol"
+						label-text="🍻 Alcohol"
+						form-associated="true"
+					/>
+					<sicl-checkbox
+						value="regret"
+						label-text="👀 Do you regret this?"
+						form-associated="true"
+					/>
 				</sicl-checkbox-group>
 				<span class="form-buttons">
 					<sicl-button
@@ -148,18 +177,24 @@
 			</span>
 		</form>
 		<div class="list">
-			{#each expenses as expense}
-				<ListItem
-					id={expense.id}
-					dateAdded={expense.dateAdded}
-					description={expense.description}
-					value={expense.value}
-					paymentType={expense.paymentType}
-					additional={expense.additional}
-					on:delete={() => handleDelete(expense.id)}
-				/>
-			{/each}
+			<scrollable-component class="list-component">
+				<div class="list-items-wrapper">
+					{#each expenses as expense}
+						<ListItem
+							id={expense.id}
+							dateAdded={expense.dateAdded}
+							description={expense.description}
+							value={expense.value}
+							paymentType={expense.paymentType}
+							additional={expense.additional}
+							on:delete={() => handleDelete(expense.id)}
+						/>
+					{/each}
+				</div>
+			</scrollable-component>
 		</div>
-		<div class="total" />
+		<div class="total">
+			<h3 class="total-value">Total: <h1>$ {totalValue}</h1></h3>
+		</div>
 	</div>
 </div>

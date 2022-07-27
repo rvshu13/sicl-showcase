@@ -52,8 +52,8 @@ export function makeServer() {
       // });
 
       this.post("/expenses", (schema, request) => {
-        let expense = JSON.parse(request.requestBody).data;
-
+        let expense = JSON.parse(request.requestBody);    
+        
         return schema.db.expenses.insert(expense);
       });
     },

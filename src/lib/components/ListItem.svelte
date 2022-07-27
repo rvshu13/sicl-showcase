@@ -50,6 +50,7 @@
 		background-color: var(--container-background-color);
 		box-shadow: var(--aura-medium);
 		padding: 16px 16px 16px 48px;
+		transition: 120ms ease-in-out;
 
 		.content {
 			grid-area: content;
