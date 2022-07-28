@@ -1,17 +1,24 @@
 import { Model, Server } from "miragejs";
 
+let date = new Date();
+date.setDate(date.getDate() - 1);
+let dateMinusOne = date.toISOString().split("T")[0]
+
+date.setDate(date.getDate() - 3);
+let dateMinusThree = date.toISOString().split("T")[0]
+
 let expenses = {
   expenses: [
     {
-      dateAdded: "2022-07-01",
+      dateAdded: dateMinusOne,
       description: "Takeaway pasta for lunch",
       value: 10.85,
       paymentType: "cash",
       additional: ["fast-food"],
     },
     {
-      dateAdded: "2020-07-04",
-      description: "Drunk again",
+      dateAdded: dateMinusThree,
+      description: "Few beers with friends",
       value: 17.5,
       paymentType: "card",
       additional: ["alcohol", "regret"],
