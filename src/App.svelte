@@ -80,7 +80,7 @@
 	<div class="temp-header-center-inside-flex-please-don't-mind-me-please" />
 	<div class="header">
 		<h1>✨ SICL ✨</h1>
-		<h4>Simple & Intuitive Component Library.</h4>
+		<h4>Simple & Intuitive Component Library</h4>
 	</div>
 	<div class="more-below-container">
 		<!-- TODO: add text-transform to h5 style definition -->
